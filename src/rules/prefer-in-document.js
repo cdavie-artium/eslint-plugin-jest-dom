@@ -176,6 +176,11 @@ export const create = (context) => {
       }
     }
 
+    // non-negated toBeNull() is valid with query* queries
+    if (matcherNode.name === "toBeNull" && !negatedMatcher) {
+      return;
+    }
+
     const query = queryNode.name || queryNode.property.name;
 
     if (queries.includes(query)) {

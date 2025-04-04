@@ -64,6 +64,13 @@ const valid = [
       foo = somethingElse;
       expect(foo).toHaveLength(1);`,
   ]),
+  // query* queries that are positively expected to be null are valid cases.
+  // It does NOT work to assert that `null` is not in the document.
+  ...["queryByText", "queryByRole"].map((q) => [
+    `expect(screen.${q}('foo')).toBeNull()`,
+    `expect(${q}('foo')).toBeNull()`,
+    `expect(wrapper.${q}('foo')).toBeNull()`,
+  ]),
   `expect().not.toBeNull()`,
   `expect(myFunction()).toBe();`,
   `expect(myFunction()).toHaveLength();`,
@@ -342,10 +349,6 @@ const invalid = [
     `expect(queryByText('foo')).not.toBeInTheDocument()`
   ),
   invalidCase(
-    `expect(queryByText('foo')).toBeNull()`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
-  ),
-  invalidCase(
     `expect(queryByText('foo')).not.toBeNull()`,
     `expect(queryByText('foo')).toBeInTheDocument()`
   ),
@@ -416,10 +419,6 @@ const invalid = [
       expect(foo).toBeInTheDocument();`
   ),
 
-  invalidCase(
-    `expect(queryAllByText('foo')).toBeNull()`,
-    `expect(queryByText('foo')).not.toBeInTheDocument()`
-  ),
   invalidCase(
     `expect(queryAllByText('foo')).not.toBeNull()`,
     `expect(queryByText('foo')).toBeInTheDocument()`
