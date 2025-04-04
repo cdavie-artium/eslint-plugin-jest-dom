@@ -342,6 +342,17 @@ const invalid = [
     expect(foo).toBeInTheDocument();`
   ),
 
+  // Invalid cases that applies to find* and get* queries
+
+  invalidCase(
+    `expect(findByText('foo')).toBeNull()`,
+    `expect(findByText('foo')).not.toBeInTheDocument()`
+  ),
+  invalidCase(
+    `expect(getByText('foo')).toBeNull()`,
+    `expect(getByText('foo')).not.toBeInTheDocument()`
+  ),
+
   // Invalid cases that applies to queryBy* and queryAllBy*
 
   invalidCase(

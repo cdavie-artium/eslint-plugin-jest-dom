@@ -176,12 +176,12 @@ export const create = (context) => {
       }
     }
 
+    const query = queryNode.name || queryNode.property.name;
+
     // non-negated toBeNull() is valid with query* queries
-    if (matcherNode.name === "toBeNull" && !negatedMatcher) {
+    if (matcherNode.name === "toBeNull" && query.startsWith("query") && !negatedMatcher) {
       return;
     }
-
-    const query = queryNode.name || queryNode.property.name;
 
     if (queries.includes(query)) {
       context.report({
